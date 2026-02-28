@@ -1,0 +1,316 @@
+/* ==== ESTILO GLOBAL ===== */
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1b2735, #090a0f);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow: hidden;
+}
+
+h1 {
+    margin-top: 40px;
+}
+
+/* ==== SISTEMA SOLAR ===== */
+.sistema-solar {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: 60px auto;
+    animation: zoomSuave 20s infinite alternate ease-in-out;
+}
+
+@keyframes zoomSuave {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
+/* ====SOL===== */
+.sol {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background: radial-gradient(circle at 30% 30%,
+        #fff8a6 0%,
+        #ffd700 30%,
+        #ff8c00 60%,
+        #ff4500 100%   
+    );
+    
+    box-shadow:
+        0 0 40px #ffae00,
+        0 0 80px #ff8c00,
+        0 0 120px rgba(255, 140, 0, 0.5);
+
+    animation: pulsarSol 4s infinite ease-in-out alternate;
+}
+
+@keyframes pulsarSol {
+    from { transform: translate(-50%, -50%) scale(1); }
+    to   { transform: translate(-50%, -50%) scale(1.05); }
+
+}
+
+/* ========= ÓRBITAS ========== */
+.orbita {
+    position: absolute;
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 50%;
+    animation: girar linear infinite;
+}
+
+.orbita1 {
+    width: 200px;
+    height: 200px;
+    top: 150px;
+    left: 150px;
+    animation-duration: 8s;
+}
+
+.orbita2 {
+    width: 300px;
+    height: 300px;
+    top: 100px;
+    left: 100px;
+    animation-duration: 12s;
+}
+
+.orbita3 {
+    width: 400px;
+    height: 400px;
+    top: 50px;
+    left: 50px;
+    animation-duration: 18s;
+}
+
+/* PLANETAS */
+.planeta {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    overflow: hidden;
+}
+
+/* CORES DIFERENTES PARA CADA PLANETA */
+.orbita1 .planeta {
+    background: 
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.5) 0%, transparent 20%),
+        radial-gradient(circle at 30% 30%, #8fd3ff 0%, #1e90ff 50%, #0b3d91 100%);    
+    
+
+    box-shadow:
+        inset -10px -10px 20px rgba(0,0,0,0.6),
+        0 0 12px rgba(30, 144, 255, 0.4);
+}
+
+.orbita2 .planeta {
+    background: 
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at 30% 30%, #a8ffb0 0%, #32cd32 50%, #0f4d0f 100%);    
+
+    box-shadow:
+        inset -10px -10px 20px rgba(0,0,0,0.6),
+        0 0 12px rgba(50, 205, 50, 0.4);
+}
+
+.orbita3 .planeta {
+    background: 
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at 30% 30%, #ffb3e6 0%, #ff1493 50%, #7a004d 100%);
+
+    box-shadow:
+        inset -10px -10px 20px rgba(0,0,0,0.6),
+        0 0 12px rgba(255, 20, 147, 0.4);
+}
+
+/* ====== ANEL DO PLANETA 2 ====== */
+.planeta-anel {
+    position: absolute;
+}
+
+.anel {
+    position: absolute;
+    width: 70px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(25deg);
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* HOVER CORRIGIDO */
+.planeta:hover {
+    transform: translateX(-50%) scale(1.2);
+}
+
+/* ANIMAÇÃO DE ROTAÇÃO */
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+
+/* BOTÃO */
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #6a5acd;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background: #836fff;
+}
+
+/* ESTRELAS */
+.estrela {
+    width: 2px;
+    height: 2px;
+    background: white;
+    position: absolute;
+    opacity: 0.3;
+    animation: piscar 2s infinite ease-in-out;
+}
+
+/* Faz elas piscarem */
+@keyframes piscar {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+/* Profundidade nas estrelas */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.6));
+    pointer-events: none;
+}
+
+/* ===== ESTRELA CADENTE ===== */
+.estrela-cadente {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px white, 0 0 20px white;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ==== NAVE ESPACIAL ==== */
+.nave {
+    position: fixed; 
+    width: 80px;
+    height: 40px;
+    background: silver;
+    border-radius: 50% 50% 20% 20%;
+    top: 20%;
+    left: -100px;
+    z-index: 20;
+    box-shadow: 0 0 20px cyan;
+    transition: transform 3s linear;
+}
+
+.cabine {
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    font-size: 20px;
+}
+
+.laser {
+    position: fixed;
+    height: 3px;
+    background: red;
+    box-shadow: 0 0 10px red, 0 0 20px red;
+    transform-origin: left center;
+    z-index: 30;
+}
+
+@keyframes explodir {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); background: orange; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.explosao {
+    animation: explodir 1s forwards;
+}
+
+/* ASTEROIDE DESTRUINDO PLANETA */
+.asteroide {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, #ffae00, #ff4500, #8b0000);
+    border-radius: 50%;
+    box-shadow:
+        0 0 20px orange,
+        0 0 40px red;
+    z-index: 50;
+}
+
+.asteroide::after {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 15px;
+    background: linear-gradient(to right, rgba(255, 140, 0, 0.8), transparent);
+    top: 50%;
+    left: -60px;
+    transform: translateY(-50%);
+}
+
+@keyframes tremer {
+    0% { transform: translateX(-50%) translateX(0); }
+    25% { transform: translateX(-50%) translateX(-5px); }
+    50% { transform: translateX(-50%) translateX(5px); }
+    75% { transform: translateX(-50%) translateX(-5px); }
+    100% { transform: translateX(-50%) translateX(0); }
+}
+
+.impacto {
+    animation: tremer 0.3s 3;
+}
+
+.buraco-negro {
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle, black 40%, purple 80%);
+    box-shadow: 0 0 30px purple;
+    display: none;
+    z-index: 10;
+}
+

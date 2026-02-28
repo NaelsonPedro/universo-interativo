@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>Meu Universo</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+
+    <h1> Bem vindo ao meu universo</h1>
+    <p>Cada estrela aqui faz parte do meu aprendizado.</p>
+
+
+    <div class="sistema-solar">
+        <div class="sol"></div>
+
+        <!-- órbitas aqui -->
+        <div class="orbita orbita1">
+            <div class="planeta" onclick="mostrar('estudos')"></div>
+        </div>
+
+        <div class="orbita orbita2">
+            <div class="planeta planeta-anel" onclick="mostrar('musica')">
+                <div class="anel"></div>
+            </div>
+        </div>
+
+        <div class="orbita orbita3">
+            <div class="planeta" onclick="mostrar('idiomas')"></div>
+        </div>
+
+        <div class="buraco-negro"></div>
+    </div>
+
+    <p id="mensagem"></p>
+
+    <button id="botao">Explorar galáxia</button>
+
+    <script src="script.js"></script>
+
+    <div class="nave" id="nave">
+        <div class="cabine">
+            👽
+        </div>
+    </div>
+</body>
+</html>
