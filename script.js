@@ -1,338 +1,235 @@
-// Trocar a cor do planeta ao clicar no botão
-const botao = document.getElementById("botao");
-const planetas = document.querySelectorAll(".planeta");
-
-// Função para gerar uma cor aleatória
-function corAleatoria() {
-    const cores = [
-        "#ff7f50", "#ff4500", "#7f7fff", "#4b0082", "#00ffff", "#ff1493", "#32cd32", "#ffd700"
-    ];
-    return cores[Math.floor(Math.random() * cores.length)];
-}
-
-
-botao.addEventListener("click", () => {
-    planetas.forEach(planeta => {
-        planeta.style.background = 
-        `linear-gradient(45deg, ${corAleatoria()}, ${corAleatoria()})`;
-    });
-});
-
 // =========================
-// Criar estrelas aleatórias de fundo
+// Criar estrelas
 // =========================
-for (let i = 0; i < 150; i++) {
+for (let i = 0; i < 200; i++) {
     let estrela = document.createElement('div');
     estrela.classList.add('estrela');
 
-    // Posição aleatória
+    estrela.dataset.depth = Math.random();
+
+    const cores = ['#c79cff', '#7ec8ff', '#ffb347', '#ff6961', '#836fff'];
+
+    if (Math.random() > 0.5) {
+        const cor = cores[Math.floor(Math.random() * cores.length)];
+        estrela.style.background = cor;
+        estrela.style.boxShadow = `0 0 8px ${cor}`;
+    }
+
     estrela.style.top = Math.random() * 100 + "vh";
     estrela.style.left = Math.random() * 100 + "vw";
 
-    // Tamanho aleatório
     const tamanho = Math.random() * 3 + 1;
     estrela.style.width = tamanho + "px";
     estrela.style.height = tamanho + "px";
 
-    // Duração de piscar diferente
     estrela.style.animationDuration = (Math.random() * 3 + 2) + "s";
-
-     // Delay aleatório para cada estrela
     estrela.style.animationDelay = Math.random() * 5 + "s";
 
-    // Algumas estrelas mais brilhantes
     if (Math.random() > 0.8) {
-        estrela.style.boxShadow = "0 0 8px white";
+        estrela.style.boxShadow += ", 0 0 8px white";
     }
+
     document.body.appendChild(estrela);
+}
+
+
+// Parallax estrelas profundidade
+// =========================
+const estrelas = document.querySelectorAll(".estrela");
+
+document.addEventListener("mousemove", (e) => {
+    estrelas.forEach(estrela => {
+        const depth = parseFloat(estrela.dataset.depth);
+
+        const moveX = (e.clientX - window.innerWidth / 2) * depth * 0.01;
+        const moveY = (e.clientY - window.innerHeight / 2) * depth * 0.01;
+
+        estrela.style.transform = `translate(${moveX}px, ${moveY}px) scale(${1 + depth})`;
+    });
+});
+
+function viajarEspaco() {
+    estrelas.forEach(estrela => {
+        let y = parseFloat(estrela.style.top);
+
+        const speed = Math.pow(estrela.dataset.depth, 2) * 5 + 0.2;
+
+        y += speed;
+
+        if (y > window.innerHeight) {
+            y = -10; // reaparece no topo
+            estrela.style.left = Math.random() * 100 + "vw";
+        }
+
+        estrela.style.top = y + "px";
+    });
+
+    requestAnimationFrame(viajarEspaco);
+}
+
+// =========================
+// ÁUDIO (AGORA CORRETO)
+// =========================
+const musica = document.getElementById("musica");
+const somPlaneta = document.getElementById("somPlaneta");
+const botao = document.getElementById("botao");
+
+// volume inicial
+musica.volume = 0.3;
+somPlaneta.volume = 0.6;
+
+// Botão ligar/desligar música
+let tocando = false;
+
+// botão inicia música
+botao.addEventListener("click", () => {
+    if (!tocando) {
+        musica.play();
+        botao.innerText = "Pausar música";
+
+        iniciarExperiencia(); // 🔥 AQUI ESTÁ A MÁGICA
+        zoomCinematografico();
+        viajarEspaco();
+
+    } else {
+        musica.pause();
+        botao.innerText = "Explorar galáxia";
+    }
+
+    tocando = !tocando;
+});
+
+
+// =========================
+// Clique nos planetas
+// =========================
+function mostrar(tipo) {
+    const mensagem = document.getElementById("mensagem");
+
+    somPlaneta.currentTime = 0;
+    somPlaneta.play();
+
+    if (tipo === "estudos") {
+        mensagem.innerText = "Este planeta representa meu esforço diário.";
+    } else if (tipo === "musica") {
+        mensagem.innerText = "Aqui vivem os acordes que estou aprendendo.";
+    } else if (tipo === "idiomas") {
+        mensagem.innerText = "Neste mundo eu exploro novas línguas.";
+    }
+}
+
+
+// EXPERIÊNCIA CINEMATOGRÁFICA
+function iniciarExperiencia() {
+
+    // leve zoom
+    document.body.style.transition = "transform 4s ease";
+    document.body.style.animation = "zoomInfinito 20s linear infinite";
+
+    // estrela cadente
+    setTimeout(() => {
+        estrelaCadente();
+    }, 800);
+}
+
+
+function zoomCinematografico() {
+    let escala = 1;
+
+    setInterval(() => {
+        escala += 0.001 + Math.sin(Date.now() * 0.001) * 0.0005;
+
+        document.body.style.transform = `scale(${escala})`;
+
+        // reset invisível (truque)
+        if (escala >= 1.3) {
+            escala = 1;
+        }
+
+    }, 30);
 }
 
 // =========================
 // ESTRELA CADENTE
 // =========================
-
-
-// Criar estrela cadente ocasionalmente
-function criarEstrelaCadente() {
-
+function estrelaCadente() {
     const estrela = document.createElement("div");
     estrela.classList.add("estrela-cadente");
 
-    // nasce em qualquer ponto do topo
-    const inicioX = Math.random() * window.innerWidth;
-    const inicioY = Math.random() * window.innerHeight * 0.3;
-
-    estrela.style.left = inicioX + "px";
-    estrela.style.top = inicioY + "px";
+    estrela.style.top = Math.random() * window.innerHeight + "px";
+    estrela.style.left = Math.random() * window.innerWidth + "px";
 
     document.body.appendChild(estrela);
 
-    // direção diagonal natural
-    const distancia = 800;
-    const angulo = (Math.random() * 30 + 20) * (Math.PI / 180);
+    estrela.animate([
+        { transform: "translate(0,0)", opacity: 1 },
+        { transform: "translate(200px,200px)", opacity: 0 }
+    ], {
+        duration: 1000,
+        easing: "ease-out"
+    });
 
-    const fimX = inicioX + Math.cos(angulo) * distancia;
-    const fimY = inicioY + Math.sin(angulo) * distancia;
-
-    const duracao = Math.random() * 1000 + 800;
-    const inicioTempo = performance.now();
-
-    function animar(tempo) {
-        const progresso = (tempo - inicioTempo) / duracao;
-
-        if (progresso < 1) {
-            estrela.style.left = inicioX + (fimX - inicioX) * progresso + "px";
-            estrela.style.top = inicioY + (fimY - inicioY) * progresso + "px";
-            estrela.style.opacity = 1 - progresso;
-            requestAnimationFrame(animar);
-        } else {
-            estrela.remove();
-        }
-    }
-
-    requestAnimationFrame(animar);
+    setTimeout(() => estrela.remove(), 1000);
 }
 
-function chuvaDeMeteoros() {
-    const quantidade = Math.floor(Math.random() * 10) + 5;
 
-    for (let i = 0; i < quantidade; i++) {
-        setTimeout(() => {
-            criarEstrelaCadente();
-        }, i * 200); // intervalo entre cada meteoro
-    }
+
+// Nave Espacial
+const nave = document.getElementById("nave");
+
+function spawnNave() {
+    const altura = Math.random() * (window.innerHeight * 0.6);
+    const duracao = Math.random() * 3 + 3; // entre 3s e 6s
+    const inclinacao = Math.random() * 20 - 10; // -10° a +10°
+
+    nave.style.transition = "none";
+    nave.style.top = altura + "px";
+    nave.style.transform = `translateX(-200px) rotate(${inclinacao}deg)`;
+
+    setTimeout(() => {
+        nave.style.transition = `transform ${duracao}s linear`;
+        nave.style.transform = `translateX(${window.innerWidth + 200}px) rotate(${inclinacao}deg)`;
+    }, 50);
 }
 
-// intervalo variável (fica mais natural)
+// spawn aleatório
 setInterval(() => {
-
-    // meteoros normais
-    if (Math.random() > 0.7) {
-        criarEstrelaCadente();
-    }
-
-    // chance rara de chuva de meteoros
-    if (Math.random() > 0.97) {
-        chuvaDeMeteoros();
-    }
-}, 500);
+    spawnNave();
+}, Math.random() * 8000 + 5000); // entre 5s e 13s
 
 
-// =========================
-// Mostrar mensagem ao clicar nos planetas
-// =========================
-function mostrar(tipo) {
-    const mensagem = document.getElementById("mensagem");
+document.addEventListener("mousemove", (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 10;
+    const y = (e.clientY / window.innerHeight - 0.5) * 10;
 
-    if (tipo === "estudos") {
-        mensagem.innerText = "Este planeta representa meu esforço diário.";
-    }
+    nave.style.boxShadow = `${X}px ${y}px 20px cyan`;
+});
 
-    if (tipo === "musica") {
-        mensagem.innerText = "Aqui vivem os acordes que estou aprendendo.";
-    }
+// Rastro da nave
+function rastroNave() {
+    const particula = document.createElement("div");
 
-    if (tipo === "idiomas") {
-        mensagem.innerText = "Neste mundo eu exploro novas línguas.";
-    }
+    particula.style.position = "fixed";
+    particula.style.width = "4px";
+    particula.style.height = "4px";
+    particula.style.background = "cyan";
+    particula.style.borderRadius = "50%";
+    particula.style.left = nave.getBoundingClientRect().left + "px";
+    particula.style.top = nave.getBoundingClientRect().top + "px";
+    particula.style.opacity = "0.7";
+    particula.style.pointerEvents = "none";
 
+    document.body.appendChild(particula);
+
+    particula.animate([
+        { transform: "scale(1)", opacity: 0.7 },
+        { transform: "scale(0)", opacity: 0 }
+    ], {
+        duration: 600,
+        easing: "ease-out"
+    });
+
+    setTimeout(() => particula.remove(), 600);
 }
 
-/* ANIMAÇÃO DE ATAQUE ALIENÍGENA */
-function moverNave() {
-    const nave = document.getElementById("nave");
-
-    nave.style.transition = "none"; // Remove transição para movimento instantâneo
-    nave.style.transform = "translateX(0)"; // Reseta a posição da nave
-    nave.style.left = "-100px"; // Começa fora da tela
-
-    setTimeout(() => {
-        nave.style.transition = "transform 3s linear"; // Adiciona transição para movimento suave
-        nave.style.transform = "translateX(120vw)"; // Move a nave para atravessar a tela
-    }, 50); // Pequeno delay para garantir que a posição inicial seja aplicada
-
-    // Quando terminar o movimento -> dispara o laser
-    nave.addEventListener("transitionend", function handler() {
-        dispararLaser();
-        setTimeout(destruirPlaneta, 200); // Destrói o planeta um pouco depois de disparar o laser
-        nave.removeEventListener("transitionend", handler); // Remove o listener para evitar múltiplos disparos
-    })
-}
-
-
-
-function dispararLaser() {
-    const nave = document.getElementById("nave");
-    const planeta = document.querySelector(".planeta-anel:not(.explosao)"); // Alvo: planeta com anel que ainda não foi destruído
-
-    if (!nave || !planeta) return;
-
-    const naveRect = nave.getBoundingClientRect();
-    const planetaRect = planeta.getBoundingClientRect();
-
-    const origemX = naveRect.left + naveRect.width;
-    const origemY = naveRect.top + naveRect.height / 2;
-
-    const destinoX = planetaRect.left + planetaRect.width / 2;
-    const destinoY = planetaRect.top + planetaRect.height / 2;
-
-    const deltaX = destinoX - origemX;
-    const deltaY = destinoY - origemY;
-
-    const distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    const angulo = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-
-    const laser = document.createElement("div");
-    laser.classList.add('laser');
-
-    laser.style.left = origemX + "px";
-    laser.style.top = origemY + "px";
-    laser.style.width = distancia + "px";
-    laser.style.transform = `rotate(${angulo}deg)`;
-
-    document.body.appendChild(laser);
-
-    setTimeout(() => {
-        laser.remove();
-    }, 300); // Remove o laser após atingir o planeta
-}
-
-
-function destruirPlaneta() {
-    const planeta = document.querySelector(".planeta-anel");
-    if (planeta) {
-        planeta.classList.add("explosao"); // Adiciona a classe de explosão para animar a destruição
-    }
-}
-
-function ataqueAlien() {
-    moverNave(); 
-}
-
-setTimeout(ataqueAlien, 5000); // Inicia o ataque alienígena após 5 segundos
-
-function criarAsteroide() {
-
-    const asteroide = document.createElement("div");
-    asteroide.classList.add("asteroide");
-
-    // nasce fora da tela em posição aleatória lateral
-    const lado = Math.random() > 0.5 ? -100 : window.innerWidth + 100;
-    const inicioX = lado;
-    const inicioY = Math.random() * window.innerHeight * 0.6;
-
-    asteroide.style.left = inicioX + "px";
-    asteroide.style.top = inicioY + "px";
-
-    document.body.appendChild(asteroide);
-
-    const planeta = document.querySelector(".orbita3 .planeta:not(.explosao)"); // Alvo: planeta da órbita 3 que ainda não foi destruído
-    if (!planeta) return;
-
-    const planetaRect = planeta.getBoundingClientRect();
-
-    const destinoX = planetaRect.left + planetaRect.width / 2;
-    const destinoY = planetaRect.top + planetaRect.height / 2;
-
-    const deltaX = destinoX - inicioX;
-    const deltaY = destinoY - inicioY;
-
-    const angulo = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-    asteroide.style.transform = `rotate(${angulo}deg)`;
-
-    let inicioTempo = performance.now();
-    const duracao = 2500; // Duração do movimento em ms
-
-    function animar(tempo) {
-
-        const progresso = (tempo - inicioTempo) / duracao;
-
-        if (progresso < 1) {
-
-            // aceleração suave usando uma função de easing (quadrática)
-            const ease = progresso * progresso;
-
-            asteroide.style.left = inicioX + deltaX * ease + "px";
-            asteroide.style.top = inicioY + deltaY * ease + "px";
-
-            requestAnimationFrame(animar);
-        } else {
-            impactoAsteroide(planeta);
-            asteroide.remove();
-        }
-    }
-
-    requestAnimationFrame(animar);
-}
-
-function impactoAsteroide(planeta) {
-
-    planeta.classList.add("impacto"); // Animação de tremor para simular impacto
-
-    setTimeout(() => {
-        planeta.classList.remove("impacto"); // Remove a classe de tremor após a animação)
-        planeta.classList.add("explosao"); // Adiciona a classe de explosão para animar a destruição
-    }, 300); // Destrói o planeta após o tremor
-}
-
-setTimeout(criarAsteroide, 10000); // Inicia a criação do asteroide após 10 segundos
-
-function sugarPlaneta(planeta, buraco) {
-
-    const rect = planeta.getBoundingClientRect();
-    const buracoRect = buraco.getBoundingClientRect();
-
-    // Clona o planeta
-    const clone = planeta.cloneNode(true);
-    clone.style.position = "fixed";
-    clone.style.left = rect.left + "px";
-    clone.style.top = rect.top + "px";
-    clone.style.margin = "0";
-    clone.style.transform = "none";
-
-    document.body.appendChild(clone);
-
-    // Esconde o original
-    planeta.style.visibility = "hidden";
-
-    const destinoX = buracoRect.left + buracoRect.width / 2;
-    const destinoY = buracoRect.top + buracoRect.height / 2;
-
-    const origemX = rect.left + rect.width / 2;
-    const origemY = rect.top + rect.height / 2;
-
-    const dx = destinoX - origemX;
-    const dy = destinoY - origemY;
-
-    let progresso = 0;
-
-    function animar() {
-        progresso += 0.02;
-
-        const ease = progresso * progresso; // aceleração natural
-
-        clone.style.transform = `
-            translate(${dx * ease}px, ${dy * ease}px)
-            scale(${1 - ease})
-            rotate(${ease * 720}deg)
-        `;
-
-        if (progresso < 1) {
-            requestAnimationFrame(animar);
-        } else {
-            clone.remove();
-        }
-    }
-
-    requestAnimationFrame(animar);
-}
-
-setTimeout(() => {
-    const planeta = document.querySelector(".orbita1 .planeta");
-    const buraco = document.querySelector(".buraco-negro");
-
-    if (planeta && buraco) {
-        buraco.style.display = "block"; // Mostra o buraco negro
-        sugarPlaneta(planeta, buraco);
-    }
-}, 15000); // Inicia a animação de sucção após 15 segundos
+setInterval(rastroNave, 80);

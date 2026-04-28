@@ -3,7 +3,7 @@
 body {
     margin: 0;
     height: 100vh;
-    background: radial-gradient(circle at top, #1b2735, #090a0f);
+    background: radial-gradient(circle at top, #0f1724, #020305);
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
@@ -20,7 +20,9 @@ h1 {
     width: 500px;
     height: 500px;
     margin: 60px auto;
-    animation: zoomSuave 20s infinite alternate ease-in-out;
+}
+.sistema-solar {
+    transform: scale(0.7);
 }
 
 @keyframes zoomSuave {
@@ -30,27 +32,28 @@ h1 {
 
 /* ====SOL===== */
 .sol {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    background: radial-gradient(circle at 30% 30%,
-        #fff8a6 0%,
-        #ffd700 30%,
-        #ff8c00 60%,
-        #ff4500 100%   
+    background: radial-gradient(circle at 40% 40%,
+        #fff6b3 0%,
+        #ffd36b 25%,
+        #ff9f1a 55%,
+        #ff5e00 80%,
+        #ff2a00 100%
     );
-    
-    box-shadow:
-        0 0 40px #ffae00,
-        0 0 80px #ff8c00,
-        0 0 120px rgba(255, 140, 0, 0.5);
 
-    animation: pulsarSol 4s infinite ease-in-out alternate;
+    box-shadow:
+        0 0 40px rgba(255, 180, 0, 0.6),
+        0 0 90px rgba(255, 140, 0, 0.4),
+        0 0 160px rgba(255, 90, 0, 0.2);
+
+    animation: pulsarSol 10s infinite ease-in-out alternate;
 }
 
 @keyframes pulsarSol {
@@ -62,7 +65,7 @@ h1 {
 /* ========= ÓRBITAS ========== */
 .orbita {
     position: absolute;
-    border: 1px dashed rgba(255,255,255,0.2);
+    border: 1px dashed rgba(255,255,255,0.12);
     border-radius: 50%;
     animation: girar linear infinite;
 }
@@ -103,62 +106,102 @@ h1 {
     cursor: pointer;
     transition: transform 0.3s ease;
 
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* CORES DIFERENTES PARA CADA PLANETA */
 .orbita1 .planeta {
-    background: 
-        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.5) 0%, transparent 20%),
-        radial-gradient(circle at 30% 30%, #8fd3ff 0%, #1e90ff 50%, #0b3d91 100%);    
-    
+    background:
+        radial-gradient(circle at 30% 30%, #6ea6ff, #1c3f80 70%);
+
 
     box-shadow:
-        inset -10px -10px 20px rgba(0,0,0,0.6),
-        0 0 12px rgba(30, 144, 255, 0.4);
+        inset -8px -10px 18px rgba(0,0,0,0.8),
+        0 0 6px rgba(80, 120, 255, 0.3);
 }
 
 .orbita2 .planeta {
-    background: 
-        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
-        radial-gradient(circle at 30% 30%, #a8ffb0 0%, #32cd32 50%, #0f4d0f 100%);    
+    background:
+        radial-gradient(circle at 30% 30%, #7cd67c, #1f5f1f 70%);
 
     box-shadow:
-        inset -10px -10px 20px rgba(0,0,0,0.6),
-        0 0 12px rgba(50, 205, 50, 0.4);
+        inset -8px -10px 18px rgba(0,0,0,0.8),
+        0 0 6px rgba(50, 180, 80, 0.25);
 }
 
 .orbita3 .planeta {
-    background: 
-        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
-        radial-gradient(circle at 30% 30%, #ffb3e6 0%, #ff1493 50%, #7a004d 100%);
+    background:
+        radial-gradient(circle at 30% 30%, #ff8ad6, #5a0040 70%);
 
     box-shadow:
-        inset -10px -10px 20px rgba(0,0,0,0.6),
-        0 0 12px rgba(255, 20, 147, 0.4);
+        inset -8px -10px 18px rgba(0,0,0,0.8),
+        0 0 6px rgba(255, 120, 200, 0.25);
 }
 
 /* ====== ANEL DO PLANETA 2 ====== */
 .planeta-anel {
-    position: absolute;
+    box-shadow:
+		inset -10px -10px 20px rgba(0,0,0,0.7),
+		inset 5px 5px 10px rgba(255, 255, 255,0.1);
 }
 
 .anel {
     position: absolute;
-    width: 70px;
-    height: 20px;
-    border: 3px solid rgba(255, 255, 255, 0.5);
+    width: 120px;
+    height: 30px;
     border-radius: 50%;
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(25deg);
+
+	opacity: 0.35;
+	filter: blur(0.6px);
+
+    background: radial-gradient(
+        ellipse at center,
+        transparent 45%,
+        rgba(180, 180, 180, 0.25) 50%,
+        rgba(150, 150, 150, 0.15) 55%,
+
+        transparent 65%
+    );
+
     pointer-events: none;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* ANEL ATRÁS DO PLANETA */
+.planeta-anel::before {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 50px;
+    border-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(25deg);
+
+    background: radial-gradient(
+        ellipse at center,
+        transparent 30%,
+        rgba(120, 120, 120, 0.25) 45%,
+        rgba(80, 80, 80, 0.2) 55%,
+        transparent 75%
+    );
+
+    filter: blur(0.5px);
+    z-index: -1;
 }
 
 /* HOVER CORRIGIDO */
 .planeta:hover {
     transform: translateX(-50%) scale(1.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.planeta:active {
+    transform: translateX(-50%) scale(1.1);
 }
 
 /* ANIMAÇÃO DE ROTAÇÃO */
@@ -184,21 +227,55 @@ button:hover {
     background: #836fff;
 }
 
+/* ----------------------------------------------------------------------- */
 /* ESTRELAS */
 .estrela {
     width: 2px;
     height: 2px;
     background: white;
     position: absolute;
-    opacity: 0.3;
+    opacity: 0.2;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
     animation: piscar 2s infinite ease-in-out;
+}
+
+
+.estrela.azul {
+    background: #7ec8ff;
+    box-shadow: 0 0 6px #7ec8ff, 0 0 12px #7ec8ff;
+}
+
+.estrela.amarela {
+    background: #fff4a3;
+    box-shadow: 0 0 6px #fff4a3, 0 0 12px #ffe066;
+}
+
+.estrela.vermelha {
+    background: #ff7b7b;
+    box-shadow: 0 0 6px #ff7b7b, 0 0 12px #ff7b7b;
+}
+
+.estrela.roxa {
+    background: #c79cff;
+    box-shadow: 0 0 6px #c79cff, 0 0 12px #c79cff;
+}
+
+.estrela.grande {
+    width: 3px;
+    height: 3px;
+}
+
+.estrela.gigante {
+    width: 4px;
+    height: 4px;
 }
 
 /* Faz elas piscarem */
 @keyframes piscar {
-    0% { opacity: 0.2; }
-    50% { opacity: 1; }
-    100% { opacity: 0.2; }
+    0% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+    100% { opacity: 0.3; transform: scale(1); }
 }
 
 /* Profundidade nas estrelas */
@@ -209,10 +286,11 @@ body::after {
     left: 0;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.6));
+    background: radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.8));
     pointer-events: none;
 }
 
+/* ----------------------------------------------------------------------- */
 /* ===== ESTRELA CADENTE ===== */
 .estrela-cadente {
     position: fixed;
@@ -227,7 +305,7 @@ body::after {
 
 /* ==== NAVE ESPACIAL ==== */
 .nave {
-    position: fixed; 
+    position: fixed;
     width: 80px;
     height: 40px;
     background: silver;
@@ -246,71 +324,17 @@ body::after {
     font-size: 20px;
 }
 
-.laser {
-    position: fixed;
-    height: 3px;
-    background: red;
-    box-shadow: 0 0 10px red, 0 0 20px red;
-    transform-origin: left center;
-    z-index: 30;
-}
+.orbita1 { animation-duration: 6s; }
+.orbita2 { animation-duration: 12s; }
+.orbita3 { animation-duration: 20s; }
 
-@keyframes explodir {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.5); background: orange; }
-    100% { transform: scale(0); opacity: 0; }
-}
 
-.explosao {
-    animation: explodir 1s forwards;
+/* ZOOM INFINITO */
+@keyframes zoomInfinito {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.3);
+    }
 }
-
-/* ASTEROIDE DESTRUINDO PLANETA */
-.asteroide {
-    position: fixed;
-    width: 30px;
-    height: 30px;
-    background: radial-gradient(circle at 30% 30%, #ffae00, #ff4500, #8b0000);
-    border-radius: 50%;
-    box-shadow:
-        0 0 20px orange,
-        0 0 40px red;
-    z-index: 50;
-}
-
-.asteroide::after {
-    content: "";
-    position: absolute;
-    width: 60px;
-    height: 15px;
-    background: linear-gradient(to right, rgba(255, 140, 0, 0.8), transparent);
-    top: 50%;
-    left: -60px;
-    transform: translateY(-50%);
-}
-
-@keyframes tremer {
-    0% { transform: translateX(-50%) translateX(0); }
-    25% { transform: translateX(-50%) translateX(-5px); }
-    50% { transform: translateX(-50%) translateX(5px); }
-    75% { transform: translateX(-50%) translateX(-5px); }
-    100% { transform: translateX(-50%) translateX(0); }
-}
-
-.impacto {
-    animation: tremer 0.3s 3;
-}
-
-.buraco-negro {
-    position: absolute;
-    top: 50%;
-    left: 85%;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: radial-gradient(circle, black 40%, purple 80%);
-    box-shadow: 0 0 30px purple;
-    display: none;
-    z-index: 10;
-}
-
